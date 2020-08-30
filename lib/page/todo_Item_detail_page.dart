@@ -1,3 +1,4 @@
+import 'package:egret_todo/db/db_provider/todo_item_db_provider.dart';
 import 'package:egret_todo/model/todo_item_model.dart';
 import 'package:flutter/material.dart';
 
@@ -29,29 +30,39 @@ class _TodoItemDetailPageState extends State<TodoItemDetailPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Row(
+                children: [
+                  Checkbox(
+                    value: _todoItemModel.finished,
+                    onChanged: (val){
+                      setState(() {
+                        _todoItemModel.finished = val;
+                      });
+                    },
+                  ),
+                ],
+              ),
               TextFormField(
+                style: TextStyle(fontSize: 25.0),
                 decoration: InputDecoration(
-                    labelText: '主题', contentPadding: EdgeInsets.all(10.0)),
+                    hintText: '准备做什么？', contentPadding: EdgeInsets.all(10.0),border: InputBorder.none),
                 autofocus: true,
                 initialValue: _todoItemModel.title,
               ),
+              SizedBox(height: 5),
               TextFormField(
                 decoration: InputDecoration(
-                    labelText: '描述', contentPadding: EdgeInsets.all(10.0)),
+                    hintText: '简单描述一下', contentPadding: EdgeInsets.all(10.0),border: InputBorder.none),
                 initialValue: _todoItemModel.subTitle,
               ),
-              Row(
-                children: [
-                  Expanded(
-                    child: RaisedButton(
-                      child: Text('确定'),
-                      color: themeData.colorScheme.primary,
-                      textColor: themeData.colorScheme.surface,
-                      onPressed: () {},
-                    )
-                  )
-                ],
-              )
+              SizedBox(height: 10),
+              RaisedButton(child: Text('确认'),onPressed: ()async{
+                var dbProvider = TodoItemDbProvider();
+                var result = await dbProvider.insert(_todoItemModel);
+                print(result);
+                var item = await dbProvider.read(result);
+                print(item);
+              },)
             ],
           ),
         ),

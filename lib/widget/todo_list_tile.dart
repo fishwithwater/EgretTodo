@@ -25,7 +25,6 @@ class _TodoListTileState extends State<TodoListTile> {
     return OpenContainer<bool>(
       transitionType: ContainerTransitionType.fade,
       openBuilder: (context, openContainer) {
-        print(1);
         return TodoItemDetailPage(todoItem);
       },
       tappable: true,

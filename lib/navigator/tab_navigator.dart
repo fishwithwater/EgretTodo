@@ -1,9 +1,12 @@
 import 'package:animations/animations.dart';
+import 'package:egret_todo/model/egret_theme.dart';
 import 'package:egret_todo/model/todo_item_model.dart';
+import 'package:egret_todo/page/setting_page.dart';
 import 'package:egret_todo/page/todo_Item_detail_page.dart';
 import 'package:egret_todo/page/todo_list_page.dart';
 import 'package:egret_todo/util/NavigatorUtil.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 const double _fabDimension = 56;
 class TabNavigator extends StatefulWidget {
   @override
@@ -23,6 +26,14 @@ class _TabNavigatorState extends State<TabNavigator> {
     return Scaffold(
       appBar: AppBar(
         title: Text(_titleList[_currentIndex]),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.settings,color:colorScheme.surface),
+            onPressed: (){
+              NavigatorUtil.push(context, SettingPage());
+            },
+          )
+        ],
       ),
       floatingActionButton: OpenContainer(
         transitionType: ContainerTransitionType.fade,
@@ -47,7 +58,7 @@ class _TabNavigatorState extends State<TabNavigator> {
           );
         },
       ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: PageView(
         controller: _controller,
         children: <Widget>[
